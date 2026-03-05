@@ -1,0 +1,47 @@
+name: Build TypeScript
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      #     cache: 'npm'
+
+      # - name: Install dependencies
+      #   run: npm ci
+
+      # - name: Lint
+      #   run: npm run lint
+
+      # - name: Type check
+      #   run: npm run typecheck
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+
+      - name: Run CI checks
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: ci
+          push: false
+
+      # - name: Build
+      #   run: npm run build
+
+      # - name: Upload build artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: dist
+      #     path: dist/
