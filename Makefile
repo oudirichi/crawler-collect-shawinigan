@@ -1,73 +1,30 @@
-.PHONY: help install build dev typecheck clean run \
-        docker-build docker-dev docker-dev-sh docker-ci docker-prod docker-clean \
-        release-patch release-minor release-major
+.PHONY: help build test run clean release-patch release-minor release-major
 
 help:
 	@echo "Available targets:"
 	@echo ""
-	@echo "  Local"
-	@echo "  install         - Install dependencies"
-	@echo "  build           - Build the project"
-	@echo "  dev             - Build in watch mode"
-	@echo "  typecheck       - Run TypeScript type checking"
-	@echo "  run             - Run the CLI locally"
-	@echo "  clean           - Remove build artifacts"
-	@echo ""
-	@echo "  Docker"
-	@echo "  docker-build    - Build all Docker images (dev, ci, prod)"
-	@echo "  docker-dev      - Start dev container in watch mode"
-	@echo "  docker-dev-sh   - Open a shell in the running dev container"
-	@echo "  docker-ci       - Run lint + tests in CI container"
-	@echo "  docker-prod     - Run production container"
-	@echo "  docker-clean    - Remove all crawler containers and images"
+	@echo "  build           - Build the prod Docker image"
+	@echo "  test            - Run parse.sh tests (CI image, no browser)"
+	@echo "  run             - Run the collect, e.g. make run ADDRESS=\"742 Avenue des Pins\""
+	@echo "  clean           - Remove collect images"
 	@echo ""
 	@echo "  Release"
 	@echo "  release-patch   - Bump patch version and push tag"
 	@echo "  release-minor   - Bump minor version and push tag"
 	@echo "  release-major   - Bump major version and push tag"
 
-# ─── Local ────────────────────────────────────────────────────────────────────
-
-install:
-	npm install
-
 build:
-	npm run build
+	docker compose --profile prod build
 
-dev:
-	npm run dev
+test:
+	docker compose --profile ci build collect-ci
 
-typecheck:
-	npm run typecheck
-
-run: build
-	node dist/cli.js
+run:
+	@docker compose --profile prod run --rm -T collect
 
 clean:
-	rm -rf dist node_modules
-
-# ─── Docker ───────────────────────────────────────────────────────────────────
-
-docker-build:
-	docker compose build
-
-docker-dev:
-	docker compose --profile dev up crawler-dev
-
-docker-dev-sh:
-	docker exec -it crawler-dev sh
-
-docker-ci:
-	docker compose --profile ci run --rm crawler-ci
-
-docker-prod:
-	docker compose --profile prod run --rm crawler
-
-docker-clean:
-	docker compose --profile dev --profile ci --profile prod down --rmi all
+	docker compose --profile ci --profile prod down --rmi all
 	docker image prune -f
-
-# ─── Release ──────────────────────────────────────────────────────────────────
 
 release-patch:
 	npm version patch

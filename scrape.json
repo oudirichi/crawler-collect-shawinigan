@@ -1,0 +1,9 @@
+{
+  "actions": [
+    { "action": "click", "selector": "#closeSplash" },
+    { "action": "waitForSelector", "selector": "#searchInput" },
+    { "action": "type", "selector": "#searchInput", "text": "742 Avenue des Pins", "delay": 120 },
+    { "action": "click", "selector": "#searchSubmit" },
+    { "action": "waitForTimeout", "timeout": 3 }
+  ]
+}

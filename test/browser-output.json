@@ -1,0 +1,4 @@
+{
+  "networkCapture": [],
+  "browserHtml": "<html><body><table><tbody><tr id=\"trDataContent\"><td id=\"tdCollecteOrdures\"><div>Prochains jours de collecte: <ul><li>mardi 22 décembre</li><li>mardi 12 janvier</li></ul></div></td><td id=\"tdCollecteRecyclage\"><div><ul><li>mardi 29 décembre</li><li>mardi 12 janvier</li></ul></div></td><td id=\"tdCollecteCompost\"><div><ul><li>mardi 22 décembre</li></ul></div></td><td id=\"tdCollecteFeuilles\"><div><ul></ul></div></td><td id=\"tdEcocentre\"><div><ul><li>1er avril au 31 octobre - mardi au samedi : 9h-16h30</li></ul></div></td></tr></tbody></table></body></html>"
+}

@@ -1,38 +1,20 @@
 services:
-  # ─── Dev ────────────────────────────────────────────────────────────────────
-  crawler-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev
-    image: crawler:dev
-    container_name: crawler-dev
-    volumes:
-      - .:/app
-    environment:
-      - NODE_ENV=development
-    profiles: [dev]
-
   # ─── CI ─────────────────────────────────────────────────────────────────────
-  crawler-ci:
+  collect-ci:
     build:
       context: .
       dockerfile: Dockerfile
       target: ci
-    image: crawler:ci
-    container_name: crawler-ci
-    environment:
-      - NODE_ENV=test
+    image: collect:ci
     profiles: [ci]
 
   # ─── Prod ───────────────────────────────────────────────────────────────────
-  crawler:
+  collect:
     build:
       context: .
       dockerfile: Dockerfile
       target: prod
-    image: crawler:latest
-    container_name: crawler
+    image: collect:latest
     environment:
-      - NODE_ENV=production
+      - ADDRESS=${ADDRESS:?définir ADDRESS, ex. ADDRESS="742 Avenue des Pins"}
     profiles: [prod]
